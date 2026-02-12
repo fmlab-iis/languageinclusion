@@ -1,0 +1,17 @@
+{
+  "display": "standalone",
+  "scope": "/languageinclusion/",
+  "name": "LanguageInclusion.org",
+  "short_name": "LanguageInclusion.org",
+  "description": "",
+  "start_url": "/languageinclusion/",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [
+    {
+      "src": "https://fmlab-iis.github.io/languageinclusion/lib/images/interwiki/doku.svg",
+      "sizes": "17x17 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

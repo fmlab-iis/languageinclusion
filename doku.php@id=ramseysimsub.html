@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+	zenlike1.0 by nodethirtythree design
+	http://www.nodethirtythree.com
+
+-->
+<html>
+<head>
+  <base href="https://fmlab-iis.github.io/languageinclusion/"/>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>
+    Buchi Automata    [LanguageInclusion.org]
+  </title>
+  <meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="ramseysimsub"/>
+<link rel="start" href="index.html"/>
+<link rel="manifest" href="lib/exe/manifest.json"/>
+<link rel="canonical" href="https://fmlab-iis.github.io/languageinclusion/doku.php@id=ramseysimsub.html"/>
+<link rel="stylesheet" href="lib/exe/css.php@t=dploeger-dokuwiki-template-zenlike-6598927&amp;tseed=a4fd956a2be824618fd00af0199a7324.css"/>
+<script >var NS='';var JSINFO = {"id":"ramseysimsub","namespace":"","ACT":"show","useHeadingNavigation":1,"useHeadingContent":1};(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<script src="lib/exe/jquery.php@tseed=8faf3dc90234d51a499f4f428a0eae43" defer="defer"></script>
+<script src="lib/exe/js.php@t=dploeger-dokuwiki-template-zenlike-6598927&amp;tseed=a4fd956a2be824618fd00af0199a7324" defer="defer"></script>
+  <link rel="shortcut icon" href="lib/tpl/dploeger-dokuwiki-template-zenlike-6598927/images/favicon.ico" />
+</head>
+<body>
+
+<div id="upbg"></div>
+
+
+<div class="upper">
+
+	
+	<div id="header">
+		<div id="headercontent">
+        		<h1>LanguageInclusion.org</h1>
+			<h2>Buchi Automata</h2>
+		</div>
+			<div id="search">
+        &nbsp;
+	</div>
+
+	</div>
+
+
+	<div id="headerpic"></div>
+
+	<div id="menu">
+		<!-- HINT: Set the class of any menu link below to "active" to make it appear active -->
+		<ul>
+
+			<li><a href="index.html">Home</a></li><li><a href="doku.php@id=news.html">News</a></li><li><a href="doku.php@id=tools.html"> Tools</a></li><li><a href="doku.php@id=pubs.html">Publications</a></li><li><a href="doku.php@id=bench.html">Benchmarks</a></li><li><a href="doku.php@id=people.html">People</a></li>
+		</ul>
+
+
+	</div>
+	<div id="menubottom"></div>
+
+</div>
+	
+<div class="dokuwiki">
+	<div id="content">
+
+	    
+	    
+  
+		<div class="divider1"></div>
+
+		<!-- Normal content: Stuff that's not going to be put in the left or right column. -->
+		<div id="normalcontent">
+
+    
+<h1 class="sectionedit1" id="buchi_automata">Buchi Automata</h1>
+<div class="level1">
+
+<p>
+Here are some current tools for checking language inclusion of nondeterministic Buchi automata.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://goal.im.ntu.edu.tw" class="urlextern" title="http://goal.im.ntu.edu.tw" rel="ugc nofollow">GOAL tool.</a> There are many other methods for checking Buchi automata inclusion/equivalence, e.g., Safra-based constructions, Muller-Schupp constructions, Safra-Pieteman construction, and Slice-based constructions. The GOAL tool implements many of these. On most instances RABIT performs better than GOAL, and thus it can solve much larger instances.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/Mazzocchi/FORKLIFT" class="urlextern" title="https://github.com/Mazzocchi/FORKLIFT" rel="ugc nofollow"> FORKLIFT.</a> It uses a subsumption-based technique, different from the Ramsey-based method. See <a href="https://doi.org/10.1007/978-3-031-13188-2_6" class="urlextern" title="https://doi.org/10.1007/978-3-031-13188-2_6" rel="ugc nofollow"> CAV&#039;22 paper</a> and <a href="https://arxiv.org/abs/2207.13549" class="urlextern" title="https://arxiv.org/abs/2207.13549" rel="ugc nofollow"> the full version of the paper</a> and <a href="https://github.com/parof/buchi-automata-benchmark" class="urlextern" title="https://github.com/parof/buchi-automata-benchmark" rel="ugc nofollow"> some benchmarks</a>. The older <a href="https://github.com/parof/bait" class="urlextern" title="https://github.com/parof/bait" rel="ugc nofollow"> BAIT tool</a> by same authors uses similar methods, see <a href="https://doi.org/10.4230/LIPIcs.CONCUR.2021.3" class="urlextern" title="https://doi.org/10.4230/LIPIcs.CONCUR.2021.3" rel="ugc nofollow"> CONCUR 2021 paper</a>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="doku.php@id=tools.html" class="wikilink1" title="tools" data-wiki-id="tools"> RABIT (Ramsey-based Buchi automata Inclusion Testing).</a> It implements a generalized version of the Ramsey-based method for Buchi automata inclusion checking with additional subsumption techniques using backward and forward simulation preorder. Newer versions of the tool additionally use generalized automata minimization techniques using good approximations of multipebble simulations and trace inclusions (see the LMCS 2019 on the RABIT tool page).</div>
+</li>
+</ul>
+
+<p>
+Note: Subsumption-based techniques and simulation-based techniques are very different from each other. Thus the performance of the above tools can vary a lot between different (classes of) instances. I.e., instances that are hard for one tool may be easy for another, and vice-versa. So you might want to try out different tools, to see what works best for your particular automata.
+</p>
+
+</div>
+		</div>
+
+	</div>
+
+    	<div id="footer">
+
+		<div class="left"></div>
+			<div class="right"><div class="license">Except where otherwise noted, content on this wiki is licensed under the following license: <bdi><a href="https://www.gnu.org/licenses/fdl-1.3.html" rel="license" class="urlextern">GNU Free Documentation License 1.3</a></bdi></div></div>
+	</div>
+	
+</div>
+
+<div class="no"><img src="lib/exe/taskrunner.php@id=ramseysimsub&amp;1770872837" width="2" height="1" alt="" /></div>
+
+</body>
+</html>
