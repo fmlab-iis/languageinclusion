@@ -1,0 +1,27 @@
+#!/bin/bash
+
+(($#<1)) && echo usage: $(basename $0) dot_filename "[line_no_of_the_CS]" && exit 1;
+
+tmpfile=/tmp/$(date +%s)
+
+dest=${1%.*} && (($#>1)) && dest=$dest.crtcl
+dest=$dest.ba
+
+cat "$1" | grep '>' | tr -d '{},"' \
+|perl -ne '$b=$a=$_;$b=~s/[\\n]//g;while($a=~/\\n\[(\d+)([^>]+)/){print "$1";$a=$2}print",$b"'> $tmpfile 
+
+n_states=$(cat $tmpfile | grep -o '[,>][^-]*' | tr -d ">," | sort | uniq | wc -l)
+n_fstates=0
+
+trap _exit EXIT
+
+(($#>1)) && n_fstates=$(cat $tmpfile | sed 's/^[^>]*>//' | grep "[^>,]\[$2" | sort | uniq | tee $tmpfile.1 | wc -l)
+(($#>1)) && cat $tmpfile | perl -ne 'if(/^[^,]*,([^-]+)(->.+)/){$b=$1.$2;$a=($1=~/\]\['$2'/?1:0); print "$a,$b\n"}else{print STDERR "Unknown transition: $_\n"}' > $tmpfile.2 || mv $tmpfile $tmpfile.2
+(($#>1)) && cat $tmpfile.1 >> $tmpfile.2 || n_fstates=$n_states
+
+mv $tmpfile.2 "$dest" && echo Successfully generated file \"$dest\". Number of states: $n_states. Number of accepting states: $n_fstates. >&2
+
+_exit () 
+{
+	rm -f $tmpfile $tmpfile.1 $tmpfile.2
+}    

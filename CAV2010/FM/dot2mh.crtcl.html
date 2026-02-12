@@ -1,0 +1,38 @@
+#!/bin/bash
+
+(($#<2)) && echo usage: $(basename $0) dot_filename cs_lineno  && exit 1;
+trap _exit EXIT
+
+tmpfile=/tmp/$(date +%s)
+
+dest=${1%.*} && (($#>2)) && dest=$dest.crtcl
+dest=$dest.mh
+
+cat "$1" | grep '>' | tr -d '{},"' \
+|perl -ne '$b=$a=$_;$b=~s/[\\n]//g;while($a=~/\\n\[(\d+)([^>]+)/){print "$1";$a=$2}print",$b"'> $tmpfile 
+
+cat $tmpfile | grep -o '[,>][^-]*' | tr -d ">," > $tmpfile.1 
+init_state=$(head -n1 $tmpfile.1)
+echo $init_state > $tmpfile.3
+cat $tmpfile.1 | grep -v "$(echo $init_state | sed 's/\[/\\[/g' | sed 's/\]/\\]/g')" | sort | uniq >> $tmpfile.3
+n_states=$(cat $tmpfile.3 | wc -l)
+n_fstates=$(cat $tmpfile | sed 's/^[^>]*>//' | grep "[^>,]\[$2" | sort | uniq | tee $tmpfile.1 | wc -l)
+
+cat $tmpfile | perl -ne 'BEGIN{open(IN,"'$tmpfile.3'")||die $!;while(<IN>){chomp;$a{$_}=++$i}}if(/^[^,]*,([^-]+)->(.+)/){$f=$a{$1};$t=$a{$2}; $l=($1=~/\]\['$2'/?1:0); print "$f\n$l\n$t\n";}else{print STDERR "Unknown transition: $_\n"}' > $tmpfile.4
+
+echo $n_states > $tmpfile.2 
+echo $(seq 1 $n_states) | tr " " "\n" >> $tmpfile.2 || cat $tmpfile.1 | \
+perl -ne 'BEGIN{open(IN,"'$tmpfile.3'")||die $!;while(<IN>){chomp;$a{$_}=++$i}}chomp;$s=$a{$_};if($s){print"$s\n"}else{print STDERR "Unknown state: $_\n"}' >> $tmpfile.2
+
+echo "-" >> $tmpfile.2
+cat $tmpfile.4 >> $tmpfile.2 
+
+mv $tmpfile.2 "$dest" && echo Successfully generated file \"$dest\". Number of states: $n_states. Number of accepting states: $n_fstates. >&2
+
+_exit () 
+{
+	rm -f $tmpfile $tmpfile.1 $tmpfile.2 $tmpfile.3 $tmpfile.4
+} 
+
+
+   

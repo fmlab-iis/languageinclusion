@@ -1,0 +1,54 @@
+#! /usr/bin/perl
+
+# Example of usage: 
+#
+#	cat peterson.1.ba | ./ba2mh > peterson.1.mh
+#
+
+sub state
+{
+	$s = $states{$_[0]};
+	if(!$s)
+	{
+		$states{$_[0]} = ++$sid;
+		$s = $sid;
+	}
+	$s;
+}
+while(<>)
+{
+	chomp;
+	if(/^\s*$/ or /^#/ or !/^[\[\d]/)
+	{
+		next;
+	}
+	if($phase==0)
+	{
+		$phase++;
+		if(!/\->/){ &state($_); next; }
+	}
+	if($phase==1)
+	{
+		if(/^([^,]+),(\[[^\-]+\])\->(\[.+\])/)
+		{
+			$from = &state($2);
+			$to = &state($3);
+			$trans .= "$from\n$1\n$to\n";
+			$n_trans++;
+			next;
+		}
+		$phase++;
+	}
+	if($phase==2)
+	{
+		$final .= "\n".&state($_);		
+		$n_final++;
+	}
+}
+print $sid;
+
+if($phase<2){ map {print "\n$_"} 1..$sid; $n_final = $sid }else{ print $final }
+
+print "\n-\n", $trans;
+
+print STDERR "There are ",$sid+0," states, ",$n_trans+0," transitions and ",$n_final+0," accepting states in this automaton.\n";

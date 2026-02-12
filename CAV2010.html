@@ -1,0 +1,723 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+  <base href="https://fmlab-iis.github.io/languageinclusion/"/>
+  <title>Simulation Subsumption in Ramsey-based Büchi Automata Universality and Inclusion Testing</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="Keywords" content="simulation, automata, universality, antichain, Büchi, LTL"/>
+  <script type="text/javascript" src="CAV2010/jquery.js"></script>
+  <script type="text/javascript" src="CAV2010/jquery.qtip.js"></script>
+  <style>
+  a { text-decoration:none;}
+  .tip { color: #0000DD; cursor: pointer; }
+  </style>
+</head>
+<body>
+<script class="example" type="text/javascript">
+// Create the tooltips only on document load
+$(document).ready(function()
+{
+   // Notice the use of the each() method to acquire access to each elements attributes
+   $('a[tooltip]').each(function()
+   {
+      $(this).qtip({
+         content: $(this).attr('tooltip'), // Use the tooltip attribute of the element for the content
+         style: {
+		name: 'cream',
+		width: 400
+	}
+      });
+   });
+});
+</script>	
+<CENTER><H2>Supplementary Materials for Simulation Subsumption in Ramsey-based Büchi Automata Universality and Inclusion Testing</H2></CENTER>
+<HR SIZE=3 NOSHADE WIDTH="80%">
+
+<div style="width:80%;margin-left:10%;">
+This is a supplementary page for the experiment in <i>Simulation Subsumption in Ramsey-based Büchi Automata Universality and Inclusion Testing</i>. In the page, you can find the following:<br><br>
+	<ul>
+	<li>  <a href="CAV2010.html#files">All executable files and source code used in our experiments.</a><br><br>
+	<li>  <a href="CAV2010.html#logs">The log files of all the experiments. All randomly generated automata are also recorded in the log files.</a><br><br>
+	<li>  <a href="CAV2010.html#beem">A detail description of how we generate Büchi automata models of mutual exclusion algorithms.</a><br><br>
+	<li>  <a href="CAV2010.html#models">The Büchi automata models generated and some further experimental results.</a><br><br>
+	</ul>
+
+This page is maintained by <a href='mailto:ericpony@csie.org'>Chih-Duo Hong (ericpony)</a> and <a href='mailto:yfc@iis.sinica.edu.tw'>Yu-Fang Chen</a>. Any questions about the experiments are welcome. We are eager to have discussions/take questions about the experiments, so please do not hesitate to do it. We will be very responsive.
+
+
+</div>
+
+<HR SIZE=3 NOSHADE WIDTH="80%">
+<p>
+	<TABLE WIDTH=80% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: avoid" ALIGN=center>
+	<TR VALIGN=TOP>
+	<TD>
+    	<FONT SIZE=+3>T</FONT><FONT SIZE=+1>HE EXECUTABLE FILES AND SOURCE CODE</FONT> <a name='files'></a>
+	<P>
+	Both the simulation subsumption algorithm and the subsumption algorithm of Fogarty and Vardi <a href='CAV2010.html#ref'>[3]</a> are implemented in Java.
+	The programs are compiled for environment compatible with Sun's JRE with version &ge; 1.5.
+	
+	<ul>
+	<li> <nobr>Checking Universality with Subsumption (<a href='CAV2010/FM/CheckingUniversality_Subsumption.jar'>jar</a>)</nobr></li>
+	<li> Checking Universality with Simulation Subsumption (<a href='CAV2010/FM/CheckingUniversality_SimulationSubsumption.jar'>jar</a>)
+	<li> Checking Inclusion with Subsumption (<a href='CAV2010/FM/CheckingInclusion_Subsumption.jar'>jar</a>)
+	<li> Checking Inclusion with Simulation Subsumption (<a href='CAV2010/FM/CheckingInclusion_SimulationSubsumption.jar'>jar</a>)
+	</ul>
+    The source code is available <a href='CAV2010/FM/cav2010.zip'>here</a>. <br>
+
+	Our programs are tested on <i>OpenJDK 64-Bit Server VM</i> and <i>Java HotSpot(TM) 64-Bit Server VM.</i>
+    We use the <a href='http://java.sun.com/javase/6/docs/api/java/lang/management/ThreadMXBean.html#getCurrentThreadCpuTime()'>getCurrentThreadCpuTime</a>
+    method to get the CPU time.	Note that some JVMs (e.g. <i>gij</i>, the GNU libgcj) do not support this function. Our programs, while
+    they will give the correct answer if the computation ever stops, will not give the correct computation time on these JVMs.
+	<h4>Universality Test</h4>
+	<p>Usage:
+	<pre>
+	java -jar jar_file Aut_file Timeout
+	</pre>
+	The program will test if L(Aut) = &Sigma;<sup>&omega;</sup>, where Aut is a Büchi automaton described by a <a href='CAV2010.html#BA'>BA</a> file.
+	Timeout is given in second; zero value indicates no timeout.
+	<p>Example:
+	<pre>
+	java -jar CheckingUniversality_SimulationSubsumption.jar peterson.crtcl.ba 1000
+
+	Program output:
+
+	Not Universal
+	Time for the Simulation Subsumption algorithm(ms): 10.
+	</pre>
+
+	<h4>Inclusion Test</h4>
+	<p>Usage:
+	<pre>
+	java -jar jar_file Aut1_file Aut2_file Timeout
+	</pre>
+	The program will test if L(Aut1) &sube; L(Aut2), where Aut1 and Aut2 are two Büchi automata described by <a href='CAV2010.html#BA'>BA</a> files.
+	Timeout is given in second; zero value indicates no timeout.
+	<p>Example:
+	<pre>
+	java -jar CheckingInclusion_SimulationSubsumption.jar peterson.1.crtcl.ba peterson.crtcl.ba 1000
+
+	Program output:
+
+	Aut1: # of Trans. 33, # of States 20.
+	Aut2: # of Trans. 34, # of States 20.
+	Included
+	Time for the Simulation Subsumption algorithm(ms): 330.
+	</pre>
+	</TD>
+	</TR>
+	</TABLE>
+
+<HR SIZE=3 NOSHADE WIDTH="80%">
+<p>
+	<TABLE WIDTH=80% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: avoid" ALIGN=center>
+	<TR VALIGN=TOP>
+	<TD>
+	<FONT SIZE=+3>T</FONT><FONT SIZE=+1>HE LOG FILES</FONT> <a name='logs'></a>
+	<P STYLE='text-align:justify'>
+	
+	Here we list the log files of our experiments that are based on random models.
+	In the all experiments below, we allowed a program to use at most 2048MB memory. 
+    	The timeout period is set as 3500 seconds.
+
+	<h4>Universality checking on Tabakov and Vardi's random model (<a href='CAV2010/FM/Vardi_Univ.tgz'>tgz</a>)</h4>
+ 	
+	Tabakov and Vardi's random model <a href='CAV2010.html#ref'>[4]</a> has a fixed alphabet size 2 and two parameters: transition density <i>td</i>
+	(the average number of outgoing transitions per alphabet symbol from a state) and acceptance density <i>ad</i>
+	(the percentage of accepting states). For each combination of td=0.5, 1,..., 4, and ad=0.1,0.2,...,1.0,
+	we generate 100 random BA instances. The naming rule of the log files is "td-ad-no.log",
+	where td is transition density, ad is acceptance density, and no is the serial number of the experiment.
+
+	<P>The following is an example of the log file.
+
+	<table border=1 noshade>
+	<tr><th>Description<th>File contents (<a href='CAV2010/FM/0.5-0.1-1.log.html'>0.5-0.1-1.log</a>)
+	<tr>
+	<td>Computation time information<a href='CAV2010.html#LOG1'>*</a>	
+	</td>
+	<td><pre>
+Format, Universal (ms), Non-universal (ms), Timeout cases
+Subsumption, 0, 10, 0
+Simulation Subsumption, 0, 80, 0</pre>
+	<tr><td>
+	Tell if the automata is universal<a href="CAV2010.html#LOG2">**</a>
+	</td>
+	<td><pre>
+	N</pre></td>
+	<tr><td>
+	A description of the automata in <a href="CAV2010.html#BA">BA</a> format
+	</td>
+	<td><pre>
+	[100]
+	0,[1]->[30]
+	...
+	0,[99]->[71]
+	[1]
+	[37]
+	...</pre>
+	</td>
+	</tr></table>
+
+	<p><a name='LOG1'>*</a>
+	The execution times are stored separately respectively for the universal and the non-universal cases.
+	If last column is set to one, it means that the answer can not be computed in 3500 seconds,
+	in which cases the execution time is set to zero. For example,
+	<code>"Subsumption, 0, 0, 1 \n Simulation Subsumption, 0, 358620, 0"</code>
+	means the subsumption algorithm cannot find the answer in 3500 seconds while the simulation subsumption
+	algorithm can find the answer in 358.62 seconds.
+	<p><a name='LOG2'>**</a>
+	U for "Universal", N for "Non-universal", and D for "Don't know". We get the result D when both algorithms fail to finish the task within the timeout period.
+
+
+	<h4> Universality checking with random LTL formulae (<a href='CAV2010/FM/LTL_Univ_log.tgz'>tgz</a>)</h4>
+	
+	In this experiment, we generate Büchi automata from random valid LTL formulae in the form of ~f\/f.
+	The formulae have lengths among 12, 18, 24, and 30. The number of propositions in a formula is among
+	1, 2, 3, and 4, which corresponds to a Büchi automaton with alphabet size 2, 4, 8, and 16, respectively.
+	For each configuration, we generate 100 automata and compute the total execution time needed to get the results.
+	The names of the log files are in the form of "(length/2)-props.log",
+	where "length" and "props" are the length of and number of propositions in a formula, respectively. 
+    Each log file is a summary of the result from 100 random LTL formulae.
+
+	<p>The following is an example of the log file.
+
+	<table border=1 noshade>
+	<tr><th>Description<th>File contents (<a href='CAV2010/FM/12-1.log.html'>12-1.log</a>)
+	<tr>
+	<td>The LTL formula (100 instances in each log)</td>
+	<td><pre>
+	~(<><>( ((<>~p /\ p)) W (()( p R p )) ))\/(<><>( ((<>~p /\ p)) W (()( p R p )) ))</pre>
+	<tr><td>
+	Tell if the automata is universal (always U)
+	</td>
+	<td><pre>
+	U</pre></td>
+	<tr><td>
+	The automaton translated from LTL <br/>
+	(in <a href="CAV2010.html#BA">BA</a> format)
+	</td>
+	<td><pre>
+	[17]
+	0,[17]->[17]
+	0,[17]->[3]
+	0,[17]->[2]
+	...
+	[13]
+	[15]
+	[16]</pre>
+	</td>
+	<tr>
+	<td>A summery of the total execution time<a href='CAV2010.html#LOG3'>*</a>
+	<td><pre>
+Total Number of Trans.: 8045, Total Number of States: 1770
+Total Time for Subsumption algorithm (Random LTL in the form of ~f\/f),
+Universal (ms): 1320 Non-universal (ms): 0 TO cases: 0
+Total Time for Simulation subsumption algorithm (Random LTL in the form of ~f\/f),
+Universal (ms): 230 Non-universal (ms): 0 TO cases: 0</pre>
+	</tr></table>
+	<p><a name='#LOG3'>*</a> The execution times are summed up respectively for the universal and the non-universal cases.
+	The number of instances that cannot be computed within 3500 seconds is given in the "TO cases" field.
+
+	<h4> Language inclusion checking with random LTL formulae (<a href='CAV2010/FM/LTL_Inc_log.tgz'>tgz</a>)</h4>
+
+	In this experiment, we generate pairs of Büchi automata (A,B) from random LTL formulae and test whether L(A) &sube; L(B).
+	The formulae we used are of length among 10, 15, and 20. The number of propositions in a formula ranging from 1 to 3, which corresponds to a Büchi automaton
+	with alphabet size among 2, 4, and 8. For each configuration, we generate 10 pairs of automata. The names of the log files are in the form of "length-props.log", where "length" and "props" are the length of and number of propositions in a formula, respectively. Each log file is a summary of the result from 10 pairs of LTL formulae.
+
+	<p>The following is an example of the log file.
+
+	<table border=1 noshade>
+	<tr><th>Description<th>File contents (<a href='CAV2010/FM/10-1.log.html'>10-1.log</a>)
+	<tr>	
+	<td>
+	The LTL formula of automaton A
+	</td>
+	<td><pre>
+	()( (<>~( (()p /\ p) ) /\ []p) )</pre>
+	<tr><td>
+	Automaton A translated from LTL<br/>
+	(in <a href="CAV2010.html#BA">BA</a> format)
+	</td>
+	<td><pre>
+	[4]
+	0,[1]->[2]
+	...
+	1,[4]->[4]
+	[3]
+	[4]</pre>
+	<tr>
+	<td>
+	The LTL formula of automaton B
+	</td>
+	<td><pre>
+	(((~p) U ((p /\ p)) /\ p R p)</pre>
+	<tr><td>
+	Automaton B translated from LTL<br/>
+	(in <a href="CAV2010.html#BA">BA</a> format)
+	</td>
+	<td><pre>
+	[6]
+	0,[1]->[3]
+	...
+	0,[6]->[2]
+	[2]
+	...
+	[6]</pre>
+	</td>
+	<tr><td> Separator between pairs of automata
+	<td><pre>
+	============================</pre>
+	<tr>
+	<td>A summery of the total execution time<a href='CAV2010.html#LOG4'>*</a>
+	<td><pre>
+Total Number Trans: 460, Total Number States: 140
+Total Time for Subsumption algorithm,
+Included (ms): 40 Not Included (ms): 120 TO cases: 0
+Total Time for Simulation subsumption algorithm,
+Included (ms): 0 Not Included (ms): 0 TO cases: 0</pre>
+	</table>
+
+	<p><a name='#LOG4'>*</a> The execution times are summed up respectively for the universal and the non-universal cases.
+	The number of instances that cannot be computed within 3500 seconds is given in the "TO cases" field.
+
+	</ul>
+	</TD>
+	</TR>
+	</TABLE>
+
+<HR SIZE=3 NOSHADE WIDTH="80%">
+
+	<TABLE WIDTH=80% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: avoid" ALIGN=center>
+	<TR VALIGN=TOP>
+	<TD>
+	<FONT SIZE=+3>H</FONT><FONT SIZE=+1>OW WE GENERATE THE MODELS</FONT><a name='beem'></a>
+	<P STYLE='text-align:justify'>
+	The models we used are from <a href="http://anna.fi.muni.cz/models/index.html">BEEM</a> <a href='CAV2010.html#ref'>[1]</a>,
+	BEnchmarks for Explicit Model checkers.	We have conducted our experiments on models of mutual exclusion algorithms including:
+	<ul>
+	<li>Fischer's mutual exclusion algorithm (<a href="http://anna.fi.muni.cz/models/cgi/model_info.cgi?name=fischer">link</a>)
+	<li>Peterson's mutual exclusion protocol for 2 processes
+	<li>MCS queue lock mutual exclusion algorithm (<a href="http://anna.fi.muni.cz/models/cgi/model_info.cgi?name=mcs">link</a>)
+	<li>Bakery mutual exclusion algorithm (<a href="http://anna.fi.muni.cz/models/cgi/model_info.cgi?name=bakery">link</a>)
+	<li>Dining philosophers problem (<a href="http://anna.fi.muni.cz/models/cgi/model_info.cgi?name=phils">link</a>)
+	</ul>
+	
+	Each model is described using the DVE modeling language. (A sample: <a href="CAV2010/FM/peterson.dve.html">Peterson's Algorithm</a>.)
+	Each DVE model is essentially a set of guarded commands. In this set of experiment, we inject (artificial) errors to the
+	DVE models by randomly weaken or strengthen the guards of some commands, translate both the original and the error version
+	into Büchi automata, and test if their control flows (w.r.t. the occupation of the critical section) are identical.
+
+    <H4>How to translate a DVE model to a Büchi automaton</H4>
+
+    For each DVE model, we use the tool
+    <a href="http://divine.fi.muni.cz/page.php?page=divine-cluster">DiVinE Cluster</a> <a href='CAV2010.html#note1'>[2]</a>
+    to generate a file (in DOT format) that describes all of the reachable states (Here is the <a href="https://fmlab-iis.github.io/languageinclusion/CAV2010/FM/peterson.dot">DOT file</a>
+    generated from the Peterson's Algorithm example).
+    Each state in the DOT file is labeled by the valuation of all variables separated using square brackets.
+    The numbers insides the first square brackets are the valuation of global variables
+    and the numbers insides the square brackets followed by the first one are the the valuation of private variables of each process.
+
+    Below is an example of a state in a DOT file.
+
+    <pre>"[0, {255|3|2}]\n[0,2]\n[3, 3]"</pre>
+
+    In this state, the values of global variables are 0 and {255|3|2} (the value of an integer array)
+    and the values of the private variables of the 2 participating processes are (0, 2) and (3, 2), respectively.
+    The value of the program counter (line number) is the <i>first</i> value of the private variables of each process.<br><br>
+
+    Here we explain how we translate the state space of a model (described in a DOT file) into a Büchi automaton.
+    Each state in a Büchi automaton is a valuation of all variables. We have a transition from a state to another one
+    if we have the same transition in the DOT file. The transition label is defined as follows.
+    If a state transits to another state, then the transition occurs over symbol 1 if at least one process in the source state is in the critical section;
+    otherwise the transition occurs over symbol 0 (Note that we use model of mutual exclusion algorithm.
+    Each process has some specific line numbers denoting that it is in the critical section).
+    We have two different ways of defining accepting states.
+	<ul>
+	<li>When our goal is to observe all possible behaviors of a model, we let all states be accepting.
+	<li>When we are only interested in the behaviors where at least one competing process enters the critical
+        section infinitely often, we mark only the states that are least one process is in the critical section as the accepting states.	
+    	</ul>
+
+	<a name='BA'><h4>The BA file format</h4></a>
+	For the purpose of more easily processing, we use the BA file to store a Büchi automaton.
+	The format of a BA file is as follows.
+	<pre>
+	(initial state)
+	...
+	transitions
+	...	
+	(accepting states)</pre>
+	A BA file consists of three parts in the following order: the initial state, the transitions, and the accepting states. 
+	When the initial state is ommited, the source state of the first transition is assumed to be the initial state.
+	When the accepting states are ommitted, it is assumed that all states are accepting. 
+	A state consists of a set of variation of the variables in the model.
+	A transition is of the form "transition label,source state-&gt;destinination state." The following is the content of an example BA file:
+	<pre>
+	0,[1]->[2]
+	1,[2]->[1]
+	[2]</pre>
+	This BA file describes a Büchi automaton that has [1] as the initial state, [2] as an accepting state, 
+	a transition from [1] to [2] over word 0, and a transition from [2] to [1] over word 1. For a more complicated example,
+    	<a href="CAV2010/FM/peterson.ba.html">here</a> you can get the BA file of Peterson's algorithm we use in our inclusion experiment.
+	<br><br>
+
+	<h4>Convert a DOT file to a BA file</h4>
+	Assume that in the DOT file there is a transition<pre>
+	"[0, {255|3|2}]\n[0]\n[3]\n[2]\n[1]"->"[0, {255|2|1}]\n[0]\n[3]\n[2]\n[1]".</pre>
+	Also assume that the line number of the critical section is 2 in this model.
+
+	The corresponding BA file should have a transition from state [0 255|3|2][0][3][2][1] to state [0 255|2|1][0][3][2][1].
+	Moreover, note that in the source state,
+	the third process is in the critical section (i.e., its line number is 2). The transition label should be 1. Therefore,
+	in the BA file the transition should read
+	<pre>
+	1,[0 255|3|2][0][3][2][1]->[0 255|2|1][0][3][2][1]</pre>
+
+	One can obtain a DOT file from a DVE model using divine.draw_state_space from the <a href="http://divine.fi.muni.cz/page.php?page=divine-cluster">DiVinE</a> <a href='CAV2010.html#note1'>[2]</a> tool. Given a DOT file, one may use <a href='CAV2010/FM/dot2ba.crtcl.html'>this</a> bash script to convert it to a BA file, and <a href="CAV2010/FM/dot2mh.crtcl.html">this</a> script to convert it to an <a href='http://www.lsv.ens-cachan.fr/~doyen/antichains/antichains.html'>MH</a> file. Moreover, one may also convert a BA file to an MH file using <a href="CAV2010/FM/ba2mh.html">this</a> script.
+	<br />
+	<br />
+
+	</center>
+	</TD>
+	<TD WIDTH=10%><P></P></TD>
+</TR>
+</TABLE>
+<HR SIZE=3 NOSHADE WIDTH="80%" class='content'>
+
+	<TABLE WIDTH=80% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: avoid" ALIGN=center>
+	<TR VALIGN=TOP>
+	<TD>
+	<FONT SIZE=+3>B</FONT><FONT SIZE=+1>UCHI AUTOMATA MODELS AND FURTHER EXPERIMENTAL RESULTS</FONT><a name='models'></a>
+	<P STYLE='text-align:justify'>
+
+	Here we list the model files and the log files, as well as a brief table of the experiment results.
+	In the all experiments below, we allowed a program to use at most 8192MB memory. The timeout period is set as 1 day.
+
+	<H4>Setting 1: A state p is accepting iff the CS is occupied by some process. (<a href='CAV2010/FM/Beem_Inc_log.tgz'>tgz</a>)</H4>
+	<table style='border-width:1px;border-color:gray;text-align:left' border=1>
+	<tr><th>Model
+	<th>Original<th>Error
+	<th><nobr>L(O)&supe;L(E)
+	<th><nobr>L(O)&sube;L(E)
+
+	<tr>
+	<td>Peterson's protocol
+	<td>
+	2 processes ,
+	<a href="CAV2010/FM/peterson.dve.html">DVE</a>,
+	<a href="CAV2010/FM/peterson.c.ba">BA</a>
+	<td>
+	2 processes with 1 error (<a class='tip' tooltip='The error is injected by adding guard "turn==2" to <PRE>wait -&gt; CS { guard want2 == 0; }</PRE> in process P_0.'>details</a>),
+	<a href="CAV2010/FM/peterson.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/peterson.1.c.ba">BA</a>
+	<td>S: 2.7 sec (T)
+	<br />SS: 0.9 sec (T)
+	<td>S: 1.4 sec (F)<br />
+	SS: 0.2 sec (F)
+
+	<tr>
+	<td>The MCS algorithm
+	<td>
+	3 processes,
+	<a href="CAV2010/FM/mcs.2.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/mcs.2.c.ba">BA</a>
+	<td>
+	3 processes with 2 errors (<a class='tip' tooltip='The errors are injected by replacing <PRE>p13 -> NCS { effect locked[next[0]] = 0; };</PRE> in process P_0 with <PRE>p13 -> NCS { effect locked[0] = 0; },</PRE> and by replacing <PRE>p13 -> NCS { effect locked[next[1]] = 0; }</PRE> in process P_1 with <PRE>p13 -> NCS { effect locked[1] = 0; }.</PRE>'>details</a>),
+	<a href="CAV2010/FM/mcs.2.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/mcs.2.1.c.ba">BA</a>,
+
+	<td>S: out of memory <br />
+	SS:  33 min 38 sec (T)
+	<td>S: 2 min 35 sec (F)
+	<br />SS: 1 min 11 sec (F)
+<!--
+	<tr>
+	<td>The MCS algorithm, version 2
+	<td>
+	3 processes,
+	<a href="FM/mcs.2.dve">DVE</a><a href='#note1'>*</a></sup></a>,
+	<a href="FM/mcs.2.c.ba">BA</a>,
+	<td>
+	3 processes with 3 errors (<a class='tip' tooltip='These errors are introduced by removing guard "tail!=0" from <PRE>p9 -> p10 { guard tail != 0;  }</PRE> in the error model of version 1.'>details</a>),
+	<a href="FM/mcs.2.1.dve">DVE</a>
+	<a href="FM/mcs.2.1.c.ba">BA</a>,
+
+	<td>
+	S: ??? sec<br />
+	SS: ??? sec
+	<td>
+	<td>
+-->
+	<tr>
+	<td>The bakery algorithm
+	<td>
+	2 processes, MAX<sup><a class='tip' tooltip='This is an artifical constrain needed to make the model finite.'>[?]</a></sup> = 9,
+	<a href="CAV2010/FM/bakery.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/bakery.1.c.ba">BA</a>
+	<td>	
+	2 processes, MAX<sup><a class='tip' tooltip='This is an artifical constrain needed to make the model finite.'>[?]</a></sup> = 6, 1 error (<a class='tip' tooltip='The error is introduced by replacing <PRE>guard number[j] == 0 or (number[j] > number[0])</PRE> in processes P_0 and P_1 with <PRE>guard number[j] == 0 or (number[j] < number[0]).</PRE>'>details</a>),
+
+	<a href="CAV2010/FM/bakery.2.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/bakery.2.c.ba">BA</a>
+
+	<td>
+	S: &gt; 1 day<br />
+	SS: 57 min 55 sec (F)
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+
+	<tr>
+	<td>The dining philosophers, version 1
+	<td>
+	4 processes ,
+	<a href="CAV2010/FM/phils.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/phils.1.c.ba">BA</a>
+	<td style='padding-right:30px'>
+	4 processes with 1 error:
+	(<a class='tip' tooltip='The error is introduced by removing<PRE>guard fork[1] == 0</PRE> from the guarded command <PRE>guard fork[1] == 0; effect fork[1] = 1</PRE> in process P_0.'>details</a>),
+	<a href="CAV2010/FM/phils.1.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/phils.1.1.c.ba">BA</a>
+
+	<td>
+	S: &gt; 1 day<br />
+	SS: 52 sec (F)
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+
+	<tr>
+	<td>The dining philosophers, version 2
+	<td>
+	4 processes ,
+	<a href="CAV2010/FM/phils.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/phils.1.c.ba">BA</a>
+	<td style='padding-right:30px'>
+	4 processes with 2 errors (<a class='tip' tooltip='The errors are introduced by removing guard <PRE>id != 0+1</PRE> from the guarded command <PRE>wait -> NCS { guard id != 0+1 && t[0] == 255;}</PRE> in process P_0, and by removing guard <PRE>fork[1] == 0</PRE> from <PRE>one -> eat {guard fork[1] == 0; effect fork[1] = 1;}</PRE> in process P_0.'>details</a>),
+	<a href="CAV2010/FM/phils.1.2.dve.html">DVE</a>,
+	<a href="CAV2010/FM/phils.1.2.c.ba">BA</a>
+	<td>
+	S: &gt; 1 day<br />
+	SS: 4 min 50 sec (F)
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+
+	<tr>
+	<td>Fischer's algorithm
+	<td>
+	3 processes,
+	<a href="CAV2010/FM/fischer.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/fischer.1.c.ba">BA</a>
+	<td>
+	3 processes with 1 error (<a class='tip' tooltip='The error is introduced by removing <PRE>guard id != 0+1</PRE> from the guarded command <PRE>wait -> NCS { guard id != 0 +1 && t[0] == 255;}</PRE> in process P_0.'>details</a>),	
+	<a href="CAV2010/FM/fischer.1.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/fischer.1.1.c.ba">BA</a>
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+
+
+<!--	<tr>
+	<td>Fisher's algorithm, version 2
+	<td>
+	3 processes,
+	<a href="FM/fischer.1.dve">DVE</a><a href='#note1'>*</a></sup></a>,
+	<a href="FM/fischer.1.c.ba">BA</a>
+	<td>
+	3 processes, 1 error (<a class='tip' tooltip='The error is introduced by removing <PRE>guard id == 0</PRE> from the guarded command <PRE>NCS -> try { guard id == 0; effect t[0] = 2;}</PRE> in process P_0.'>details</a>),	
+	<a href="FM/fischer.1.1.dve">DVE</a>,
+	<a href="FM/fischer.1.1.c.ba">BA</a>
+	<td>
+	S: ??? sec<br />
+	SS: ??? sec
+	<td>
+	<td>
+-->
+	</table>
+	<p><a name="note1">*</a>: The model is obtained from the <a href="http://anna.fi.muni.cz/models/cgi/models.cgi">BEEM</a> <a href='CAV2010.html#ref'>[1]</a> database.<br />
+
+	<H4>Setting 2: All states are accepting. (<a href='CAV2010/FM/Beem_Inc_log_all.tgz'>tgz</a>)</H4>
+	<table style='border-width:1px;border-color:gray;text-align:left' border=1>
+	<tr><th>Model
+	<th>Original<th>Error
+	<th><nobr>L(O)&supe;L(E)
+	<th><nobr>L(O)&sube;L(E)
+
+	<tr>
+	<td>Peterson's protocol
+	<td>
+	2 processes ,
+	<a href="CAV2010/FM/peterson.dve.html">DVE</a>,
+	<a href="CAV2010/FM/peterson.ba.html">BA</a>
+	<td>
+	2 processes with 1 error (<a class='tip' tooltip='The error is injected by adding guard "turn==2" to <PRE>wait -&gt; CS { guard want2 == 0; }</PRE> in process P_0.'>details</a>),
+	<a href="CAV2010/FM/peterson.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/peterson.1.ba.html">BA</a>
+	<td>S: 2.1 sec (T)
+	<br />SS: 0.43 sec (T)
+	<td>S: 0.17 sec (F)<br />
+	SS: 0.08 sec (F)
+
+	<tr>
+	<td>The MCS algorithm
+	<td>
+	3 processes,
+	<a href="CAV2010/FM/mcs.2.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/mcs.2.ba.html">BA</a>
+	<td>
+	3 processes with 2 errors (<a class='tip' tooltip='The errors are injected by replacing <PRE>p13 -> NCS { effect locked[next[0]] = 0; };</PRE> in process P_0 with <PRE>p13 -> NCS { effect locked[0] = 0; },</PRE> and by replacing <PRE>p13 -> NCS { effect locked[next[1]] = 0; }</PRE> in process P_1 with <PRE>p13 -> NCS { effect locked[1] = 0; }.</PRE>'>details</a>),
+	<a href="CAV2010/FM/mcs.2.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/mcs.2.1.ba.html">BA</a>,
+
+	<td>S: out of memory <br />
+	SS:  25 min 55 sec (T)
+	<td>S: 3 min 10 sec (F)
+	<br />SS: 1 min 39 sec (F)
+<!--
+	<tr>
+	<td>The MCS algorithm, version 2
+	<td>
+	3 processes,
+	<a href="FM/mcs.2.dve">DVE</a><a href='#note1'>*</a></sup></a>,
+	<a href="FM/mcs.2.ba">BA</a>,
+	<td>
+	3 processes with 3 errors (<a class='tip' tooltip='These errors are introduced by removing guard "tail!=0" from <PRE>p9 -> p10 { guard tail != 0;  }</PRE> in the error model of version 1.'>details</a>),
+	<a href="FM/mcs.2.1.dve">DVE</a>,
+	<a href="FM/mcs.2.1.ba">BA</a>,
+
+	<td>
+	S: ??? sec<br />
+	SS: ??? sec
+	<td>
+	<td>
+-->
+	<tr>
+	<td>The bakery algorithm
+	<td>
+	2 processes, MAX<sup><a class='tip' tooltip='This is an artifical constrain needed to make the model finite.'>[?]</a></sup> = 9,
+	<a href="CAV2010/FM/bakery.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/bakery.1.ba.html">BA</a>
+	<td>	
+	2 processes, MAX<sup><a class='tip' tooltip='This is an artifical constrain needed to make the model finite.'>[?]</a></sup> = 6, 1 error (<a class='tip' tooltip='The error is introduced by replacing <PRE>guard number[j] == 0 or (number[j] > number[0])</PRE> in processes P_0 and P_1 with <PRE>guard number[j] == 0 or (number[j] < number[0]).</PRE>'>details</a>),
+
+	<a href="CAV2010/FM/bakery.2.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/bakery.2.ba.html">BA</a>
+
+	<td>
+	S: &gt; 1 day<br />
+	SS: 2 min 47 sec (F)
+	<td>
+	S: &gt; 1 day<br />
+	SS: 20 min (F)
+
+	<tr>
+	<td>The dining philosophers, version 1
+	<td>
+	4 processes ,
+	<a href="CAV2010/FM/phils.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/phils.1.ba.html">BA</a>
+	<td style='padding-right:30px'>
+	4 processes with 1 error:
+	(<a class='tip' tooltip='The error is introduced by removing<PRE>guard fork[1] == 0</PRE> from the guarded command <PRE>guard fork[1] == 0; effect fork[1] = 1</PRE> in process P_0.'>details</a>),
+	<a href="CAV2010/FM/phils.1.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/phils.1.1.ba.html">BA</a>
+
+	<td>
+	S: 1 min 18 sec (F)<br />
+	SS: 3.7 sec (F)
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+
+	<tr>
+	<td>The dining philosophers, version 2
+	<td>
+	4 processes ,
+	<a href="CAV2010/FM/phils.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/phils.1.ba.html">BA</a>
+	<td style='padding-right:30px'>
+	4 processes with 2 errors (<a class='tip' tooltip='The errors are introduced by removing guard <PRE>id != 0+1</PRE> from the guarded command <PRE>wait -> NCS { guard id != 0+1 && t[0] == 255;}</PRE> in process P_0, and by removing guard <PRE>fork[1] == 0</PRE> from <PRE>one -> eat {guard fork[1] == 0; effect fork[1] = 1;}</PRE> in process P_0.'>details</a>),
+	<a href="CAV2010/FM/phils.1.2.dve.html">DVE</a>,
+	<a href="CAV2010/FM/phils.1.2.ba.html">BA</a>
+	<td>
+	S: 3 min 1 sec (F)<br />
+	SS: 5 sec (F)
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+
+	<tr>
+	<td>Fischer's algorithm
+	<td>
+	3 processes,
+	<a href="CAV2010/FM/fischer.1.dve.html">DVE</a><a href='CAV2010.html#note1'>*</a></sup></a>,
+	<a href="CAV2010/FM/fischer.1.ba.html">BA</a>
+	<td>
+	3 processes with 1 error (<a class='tip' tooltip='The error is introduced by removing <PRE>guard id != 0+1</PRE> from the guarded command <PRE>wait -> NCS { guard id != 0 +1 && t[0] == 255;}</PRE> in process P_0.'>details</a>),	
+	<a href="CAV2010/FM/fischer.1.1.dve.html">DVE</a>,
+	<a href="CAV2010/FM/fischer.1.1.ba.html">BA</a>
+	<td>
+	S: &gt; 1 day<br />
+	SS: &gt; 1 day
+	<td>
+	S: &gt; 1 day<br />
+	SS: 14 hours 4 mins (F)
+
+<!--	<tr>
+	<td>Fisher's algorithm, version 2
+	<td>
+	3 processes,
+	<a href="FM/fischer.1.dve">DVE</a><a href='#note1'>*</a></sup></a>,
+	<a href="FM/fischer.1.ba">BA</a>
+	<td>
+	3 processes, 1 error (<a class='tip' tooltip='The error is introduced by removing <PRE>guard id == 0</PRE> from the guarded command <PRE>NCS -> try { guard id == 0; effect t[0] = 2;}</PRE> in process P_0.'>details</a>),	
+	<a href="FM/fischer.1.1.dve">DVE</a>
+	<a href="FM/fischer.1.1.ba">BA</a>
+	<td>
+	S: ??? sec<br />
+	SS: ??? sec
+	<td>
+	<td>
+-->
+	</table>
+	<p><a name="note1">*</a>: The model is obtained from the <a href="http://anna.fi.muni.cz/models/cgi/models.cgi">BEEM</a> <a href='CAV2010.html#ref'>[1]</a>  database.<br />
+	</center>
+
+	</center>
+	</TD>
+	</TR>
+	</TABLE>
+
+
+<HR SIZE=3 NOSHADE WIDTH="80%">
+<p>
+<TABLE WIDTH=80% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: avoid" ALIGN=center>
+	<TR VALIGN=TOP>
+	<TD>
+	<FONT SIZE=+3>R</FONT><FONT SIZE=+1>EFERENCES</FONT><a name='ref'></a>
+	<P>
+	<ol>
+	<li> R Pelanek : BEEM: BEnchmarks for Explicit Model checkers (February 2007), http://anna.fi.muni.cz/models/index.html
+	<li> DiVinE - Distributed Verification Environment, Masaryk University Brno, http://anna.fi.muni.cz/divine-mc/
+	<li> S Fogarty, MY Vardi : Efficient Büchi Universality Checking - in  Proc. of TACAS, 2010.
+	<li> D Tabakov, MY Vardi : Model Checking Büchi Specifications - in Proc. of LATA, 2007.
+
+	</ol>
+	</TD>
+	</TABLE>
+
+<br />
+<br />
+<br />
+
+<div style="display:none">
+<img scr="http://s03.flagcounter.com/count/Pws/bg=CCEEFF/txt=001166/border=CCEEFF/columns=6/maxflags=12/viewers=./labels=0/pageviews=1/"/>
+</div>
+</body>
+</html>
+

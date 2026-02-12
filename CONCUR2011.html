@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+  <base href="https://fmlab-iis.github.io/languageinclusion/"/>
+  <title>Advanced Ramsey-based Buchi Automata Inclusion Testing</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="Keywords" content="simulation, automata, universality, antichain, Buchi, LTL"/>
+  <style>
+  a { text-decoration:none;}
+  .tip { color: #0000DD; cursor: pointer; }
+  </style>
+</head>
+<body>
+<CENTER><H2>Supplementary Materials for Advanced Ramsey-based Buchi Automata Inclusion Testing</H2></CENTER>
+
+<div style="width:80%;margin-left:10%;">
+This is a supplementary page for the experiment in <i>Advanced Ramsey-based Buchi Automata Inclusion Testing</i>. In the page, you can find the following:<br><br>
+	<ul>
+	<li>  <a href="CONCUR2011.html#files">All executable files and source code used in our experiments.</a><br><br>
+	<li>  <a href="CONCUR2011.html#logs">The log files of all the experiments and corresponding automata.</a><br><br>
+	</ul>
+</div>
+<div style='float:right'>Maintained by: <a href='mailto:yfc@iis.sinica.edu.tw'>Yu-Fang Chen</a></div>
+<br><br>
+
+<a name='files'>
+<HR SIZE=3 NOSHADE WIDTH="80%">
+<p>
+	<TABLE WIDTH=80% BORDER=0 CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: avoid" ALIGN=center>
+	<TR VALIGN=TOP>
+	<TD>
+        <FONT SIZE=+3>T</FONT><FONT SIZE=+1>HE EXECUTABLE FILES AND SOURCE CODE</FONT> </a>
+	<P>
+	The <a href='CONCUR2011/data/CheckingInclusion_SimulationSubsumption.jar'>program</a> is implemented in Java and compiled for environment compatible with Sun's JRE with version &ge; 1.6.
+	It has been tested on <i>OpenJDK 64-Bit Server VM</i> and <i>Java HotSpot(TM) 64-Bit Server VM.</i>
+        The source code is available <a href='CONCUR2011/data/concur2011.zip'>here</a>. <br>
+
+        We use the <a href='http://java.sun.com/javase/6/docs/api/java/lang/management/ThreadMXBean.html#getCurrentThreadCpuTime()'>getCurrentThreadCpuTime</a>
+        method to get the CPU time.
+	On some JVMs such like <i>gij</i> (GNU libgcj) does not support this function. For these case, our programs, while
+        they will give the correct answer if the computation ever stops, will not give the correct computation time.
+
+	<p>Usage:
+	<pre>
+        java -jar CheckingInclusion_SimulationSubsumption.jar Aut1_file Aut2_file [-h -q -qr -c -l -rd -DFS -SFS -fplus -b -d -v]
+
+        -h: print help page
+        -q: do quotienting w.r.t. forward simulation
+        -qr: do fw/bw quotienting repeatedly until a fixed point is reached
+        -c: use forward simulation between A and B
+        -l: use layered arc sets
+        -rd: remove dead states
+        -DFS: use DFS searching strategy (default: BFS strategy)
+        -SFS: use smallest-first searching strategy (default: BFS strategy)
+        -fplus: use one-step-further forward simulation
+        -b: use backward simulation
+        -d: debug mode
+        -v: verbose mode
+        For best performance we recommend options -q -b -rd -fplus -SFS -qr -c -l
+
+	</pre>
+	The program will test if L(Aut1) &sube; L(Aut2), where Aut1 and Aut2 are two Buchi automata described by <a href='CONCUR2011.html#BA'>BA</a> files.
+
+	<p>Example:
+	<pre>
+	java -jar CheckingInclusion_SimulationSubsumption.jar peterson.1.ba peterson.1.1.ba -q -rd -fplus -l
+
+	Program output:
+        Ver. 1.10, Test if L(A) <= L(B)
+        Aut A: # of Trans. 33, # of States 20.
+        Aut B: # of Trans. 33, # of States 20.
+        Aut A (dead states removed): # of Trans. 29, # of States 18.
+        Aut B (dead states removed): # of Trans. 29, # of States 18.
+        Included
+        Metagraphs added to the Next set 348
+        Time for the Simulation Subsumption algorithm(ms): 1232.
+	</pre>
+
+        <a name='logs'>
+        <HR SIZE=3 NOSHADE WIDTH="80%">
+
+	<FONT SIZE=+3>B</FONT><FONT SIZE=+1>UCHI AUTOMATA MODELS AND THE LOG FILES</FONT><a name='models'></a>
+	<p>
+        
+	The automata we used in the <b>first experiment (from real models) </b>are listed below. 
+        They are obtained by the following steps:
+	<ul>
+        <li> Get models of mutual exclusion protocols from the <a href="http://anna.fi.muni.cz/models/cgi/models.cgi">BEEM</a> database. Each DVE model is essentially a set of guarded commands.
+        <li> We may inject (artificial) errors to the DVE models by randomly weaken or strengthen the guards of some commands to obtain some incorrect versions of the protocols.
+        <li> Translate the DVE models into Buchi automata. A detail description of how we translate a DVE file to a Buchi automaton can be found <a href=http://www.iis.sinica.edu.tw/FMLAB/CAV2010/#beem> here.</a>
+	</ul>
+        
+
+        In the experiments, we allowed a program to use at most 4GB memory.
+        
+        <center>
+	<h4>Forward Simulation Holds Between Initial States</h4>
+	<table style='border-width:1px;border-color:gray;text-align:left' border=1>
+	<tr>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+
+	<tr>
+	<td>Peterson
+	<td>
+	<a href="CONCUR2011/data/petersonA.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/petersonB.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/petersonA-petersonB-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/petersonA-petersonB-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/petersonA-petersonB-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/petersonA-petersonB-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/petersonA-petersonB-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/petersonA-petersonB-e.log.html">-b -qr -c -DFS
+
+	<td>
+	<td>Phils
+	<td>
+	<a href="CONCUR2011/data/philsA.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/philsB.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/philsA-philsB-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/philsA-philsB-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/philsA-philsB-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/philsA-philsB-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/philsA-philsB-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/philsA-philsB-e.log.html">-b -qr -c -DFS
+
+
+	<td>
+	<td>Mcs
+	<td>
+	<a href="CONCUR2011/data/mcsA.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/mcsB.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/mcsA-mcsB-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/mcsA-mcsB-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/mcsA-mcsB-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/mcsA-mcsB-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/mcsA-mcsB-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/mcsA-mcsB-e.log.html">-b -qr -c -DFS
+
+	<tr>
+	<td>Bakery
+	<td>
+	<a href="CONCUR2011/data/bakeryA.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/bakeryB.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/bakeryA-bakeryB-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/bakeryA-bakeryB-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/bakeryA-bakeryB-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/bakeryA-bakeryB-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/bakeryA-bakeryB-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/bakeryA-bakeryB-e.log.html">-b -qr -c -DFS
+
+	<td>
+	<td>Fischer
+	<td>
+	<a href="CONCUR2011/data/fischerA.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/fischerB.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/fischerA-fischerB-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/fischerA-fischerB-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/fischerA-fischerB-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/fischerA-fischerB-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/fischerA-fischerB-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/fischerA-fischerB-e.log.html">-b -qr -c -DFS
+
+	<td>
+	<td>FischerV2
+	<td>
+	<a href="CONCUR2011/data/fischerV2A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/fischerV2B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/fischerV2A-fischerV2B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/fischerV2A-fischerV2B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/fischerV2A-fischerV2B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/fischerV2A-fischerV2B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/fischerV2A-fischerV2B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/fischerV2A-fischerV2B-e.log.html">-b -qr -c -DFS
+
+	</table>
+
+	<h4>Inclusion Holds, but Forward Simulation Does Not Hold Between Initial States</h4>
+	<table style='border-width:1px;border-color:gray;text-align:left' border=1>
+	<tr>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+
+	<tr>
+	<td>FischerV3
+	<td>
+	<a href="CONCUR2011/data/fischerV3A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/fischerV3B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/fischerV3A-fischerV3B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/fischerV3A-fischerV3B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/fischerV3A-fischerV3B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/fischerV3A-fischerV3B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/fischerV3A-fischerV3B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/fischerV3A-fischerV3B-e.log.html">-b -qr -c -DFS
+
+	<td>
+	<td>FischerV4
+	<td>
+	<a href="CONCUR2011/data/fischerV4A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/fischerV4B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/fischerV4A-fischerV4B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/fischerV4A-fischerV4B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/fischerV4A-fischerV4B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/fischerV4A-fischerV4B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/fischerV4A-fischerV4B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/fischerV4A-fischerV4B-e.log.html">-b -qr -c -DFS
+
+
+	<td>
+	<td>BakeryV2
+	<td>
+	<a href="CONCUR2011/data/bakeryV2A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/bakeryV2B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/bakeryV2A-bakeryV2B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/bakeryV2A-bakeryV2B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/bakeryV2A-bakeryV2B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/bakeryV2A-bakeryV2B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/bakeryV2A-bakeryV2B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/bakeryV2A-bakeryV2B-e.log.html">-b -qr -c -DFS
+
+	</table>
+
+	<h4>Inclusion Does Not Hold</h4>
+	<table style='border-width:1px;border-color:gray;text-align:left' border=1>
+	<tr>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Model
+	<th>Automata
+        <th>Log Files
+
+	<tr>
+	<td>BakeryV3
+	<td>
+	<a href="CONCUR2011/data/bakeryV3A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/bakeryV3B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/bakeryV3A-bakeryV3B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/bakeryV3A-bakeryV3B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/bakeryV3A-bakeryV3B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/bakeryV3A-bakeryV3B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/bakeryV3A-bakeryV3B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/bakeryV3A-bakeryV3B-e.log.html">-b -qr -c -DFS
+
+	<td>
+	<td>FischerV5
+	<td>
+	<a href="CONCUR2011/data/fischerV5A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/fischerV5B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/fischerV5A-fischerV5B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/fischerV5A-fischerV5B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/fischerV5A-fischerV5B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/fischerV5A-fischerV5B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/fischerV5A-fischerV5B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/fischerV5A-fischerV5B-e.log.html">-b -qr -c -DFS
+
+
+	<td>
+	<td>PhilsV2
+	<td>
+	<a href="CONCUR2011/data/philsV2A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/philsV2B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/philsV2A-philsV2B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/philsV2A-philsV2B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/philsV2A-philsV2B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/philsV2A-philsV2B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/philsV2A-philsV2B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/philsV2A-philsV2B-e.log.html">-b -qr -c -DFS
+
+
+	<tr>
+	<td>PhilsV3
+	<td>
+	<a href="CONCUR2011/data/philsV3A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/philsV3B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/philsV3A-philsV3B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/philsV3A-philsV3B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/philsV3A-philsV3B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/philsV3A-philsV3B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/philsV3A-philsV3B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/philsV3A-philsV3B-e.log.html">-b -qr -c -DFS
+
+	<td>
+	<td>PhilsV4
+	<td>
+	<a href="CONCUR2011/data/philsV4A.ba.html">Aut A</a>
+	<br / >
+	<a href="CONCUR2011/data/philsV4B.ba.html">Aut B</a>
+	<td>
+	<a href="CONCUR2011/data/philsV4A-philsV4B-f.log.html">Algorithm of [1]
+        <br />
+	<a href="CONCUR2011/data/philsV4A-philsV4B-a.log.html">default
+        <br />
+	<a href="CONCUR2011/data/philsV4A-philsV4B-b.log.html">-b
+        <br />
+	<a href="CONCUR2011/data/philsV4A-philsV4B-c.log.html">-b -qr
+        <br />
+	<a href="CONCUR2011/data/philsV4A-philsV4B-d.log.html">-b -qr -c
+        <br />
+	<a href="CONCUR2011/data/philsV4A-philsV4B-e.log.html">-b -qr -c -DFS
+
+	</table>
+        </center>
+        <br / >
+	The log files and the automata of the <b>second experiment (Tabakov-Vardi Random Model) </b>are listed below.
+        <center>
+	<h4>Tabakov-Vardi Model</h4>
+	<table style='border-width:1px;border-color:gray;text-align:left' border=1>
+	<tr>
+        <th>Configuration
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Configuration
+	<th>Automata
+        <th>Log Files
+        <th>
+        <th>Configuration
+	<th>Automata
+        <th>Log Files
+
+	<tr>
+	<td>Size 15 <br / > Ad 0.1-1.0 <br / > Td= 1.5, 2.0, 2.5,3.0 
+	<td>
+	<a href="CONCUR2011/data/aut15.zip">Zip</a>
+	<td>
+	<a href="CONCUR2011/data/log15f.zip">Algorithm of [1]</a>
+        <br / >
+	<a href="CONCUR2011/data/log15d.zip">-b -qr -c</a>
+
+	<td>
+	<td>Size 30 <br / > Ad 0.1 <br / > Td= 2.0
+	<td>
+	<a href="CONCUR2011/data/aut30.zip">Zip</a>
+	<td>
+	<a href="CONCUR2011/data/log30f.zip">Algorithm of [1]</a>
+        <br / >
+	<a href="CONCUR2011/data/log30d.zip">-b -qr -c</a>
+
+	<td>
+	<td>Size 50 <br / > Ad 0.6 <br / > Td= 3.0
+	<td>
+	<a href="CONCUR2011/data/aut50.zip">Zip</a>
+	<td>
+	<a href="CONCUR2011/data/log50f.zip">Algorithm of [1]</a>
+        <br / >
+	<a href="CONCUR2011/data/log50d.zip">-b -qr -c</a>
+
+	</table>
+        </center>
+        
+
+        <HR SIZE=3 NOSHADE WIDTH="80%">
+        <TR VALIGN=TOP>
+	<TD>
+	<FONT SIZE=+3>R</FONT><FONT SIZE=+1>EFERENCES</FONT><a name='ref'></a>
+	<P>
+	<ol>
+	<li> Parosh Aziz Abdulla, Yu-Fang Chen, Lorenzo Clemente, Lukas Holik, Chih-Duo Hong, Richard Mayr, Tomas Vojnar: Simulation Subsumption in Ramsey-Based Buchi Automata Universality and Inclusion Testing, CAV 2010.
+	<li> R Pelanek : BEEM: BEnchmarks for Explicit Model checkers (February 2007), http://anna.fi.muni.cz/models/index.html
+	<li> DiVinE - Distributed Verification Environment, Masaryk University Brno, http://anna.fi.muni.cz/divine-mc/
+	<li> D Tabakov, MY Vardi : Model Checking Buchi Specifications, LATA, 2007.
+
+	</ol>
+	</TD>
+	</TABLE> 
+
+
+
+</body>
+</html>
+
