@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8"/>
+  <script>
+    (function(){
+      var base = location.pathname.replace(/\/CONCUR2011\/.*$/, '') || '/';
+      var target = (base === '/' ? '' : base) + '/CONCUR2011.html';
+      var url = 'https://' + location.host + target;
+      if (location.replace) location.replace(url);
+      else location.href = url;
+    })();
+  </script>
   <meta http-equiv="refresh" content="0;url=../CONCUR2011.html"/>
-  <script>window.location.replace("../CONCUR2011.html");</script>
 </head>
 <body>
   <p>Redirecting to <a href="../CONCUR2011.html">CONCUR 2011 supplementary materials</a>...</p>
